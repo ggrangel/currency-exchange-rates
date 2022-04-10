@@ -1,55 +1,27 @@
-import React from "react";
+import React from 'react'
+import Select from 'react-select'
 
-export const CURRENCIES = [
-  "AUD",
-  "BGN",
-  "BRL",
-  "CAD",
-  "CHF",
-  "CNY",
-  "CZK",
-  "DKK",
-  "EUR",
-  "GBP",
-  "HKD",
-  "HRK",
-  "HUF",
-  "IDR",
-  "ILS",
-  "INR",
-  "ISK",
-  "JPY",
-  "KRW",
-  "MXN",
-  "MYR",
-  "NOK",
-  "NZD",
-  "PHP",
-  "PLN",
-  "RON",
-  // "RUB",
-  "SEK",
-  "SGD",
-  "THB",
-  "TRY",
-  "USD",
-  "ZAR",
-];
-
-export default function CurrencyList({
-  setBaseCurrency,
-}: {
+interface Props {
+  listOfCurrencies: string[];
   setBaseCurrency: React.Dispatch<React.SetStateAction<string>>;
-}) {
+  defaultValue: string;
+}
+
+export default function CurrencyList ({
+  listOfCurrencies,
+  setBaseCurrency,
+  defaultValue
+}: Props) {
   return (
     <>
-      <select id="currency" onChange={(e) => setBaseCurrency(e.target.value)}>
-        {CURRENCIES.map((currency) => (
-          <option key={currency} value={currency}>
-            {currency}
-          </option>
-        ))}
-      </select>
+        <Select
+          options={listOfCurrencies
+            .sort()
+            .map(currency => ({ label: currency, value: currency }))}
+          defaultValue={{ label: defaultValue, value: defaultValue }}
+          onChange={(e) => setBaseCurrency(e!.value)}
+          className="d-inline-block"
+        />
     </>
-  );
+  )
 }

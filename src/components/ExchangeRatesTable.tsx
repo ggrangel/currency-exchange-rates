@@ -6,8 +6,7 @@ interface Props {
 }
 
 export default function ExchangeRatesTable ({ baseCurrency }: Props) {
-  const [currencies, setCurrencies] = useState(Object)
-  const [error, setError] = useState(false)
+  const [exchangeRates, setExchangeRates] = useState(Object)
 
   useEffect(() => {
     const fetchExchangeRates = async () => {
@@ -19,39 +18,28 @@ export default function ExchangeRatesTable ({ baseCurrency }: Props) {
         )
         exchangeRates.data.rates[`${baseCurrency}`] = 1
 
-        setCurrencies(exchangeRates.data.rates)
-        setError(false)
-      } catch (error) {
-        setError(true)
-      }
+        setExchangeRates(exchangeRates.data.rates)
+      } catch (error) {}
     }
 
     fetchExchangeRates()
   }, [baseCurrency])
 
-  function checkAPIError () {
-    return (
-      error &&
-      'Oops, could not fetch exchange rates, please try to fix the error shown in the console or try again later.'
-    )
-  }
-
   return (
     <>
-      {checkAPIError()}
-      {currencies && (
+      {exchangeRates && (
         <div className='container'>
           <div className='row '></div>
-          {Object.keys(currencies)
+          {Object.keys(exchangeRates)
             .sort()
             .map((currency, i) => (
               <div key={i} className='col-6 col-md-3 d-inline-flex '>
                 <div className='container'>
                   <div className='row justify-content-start'>
-                    <div className='col-6 mb-3'>{currency}</div>
-                    <div className='col-6 mb-3'>
-                      {currencies[currency].toFixed(3)}
-                    </div>
+                    <p className='col-6 mb-3'>{currency}</p>
+                    <p id={currency} className='col-6 mb-3'>
+                      {exchangeRates[currency].toFixed(3)}
+                    </p>
                   </div>
                 </div>
               </div>
