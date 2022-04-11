@@ -1,10 +1,15 @@
+import { Typography } from '@mui/material'
+
 interface Props {
   title: string;
 }
+
 export default function SectionHeader ({ title }: Props) {
   return (
     <>
-      <h1>{title}</h1>
+      <Typography sx={{ fontWeight: 600 }} variant='h4' mt={4} gutterBottom>
+        {title}
+      </Typography>
     </>
   )
 }

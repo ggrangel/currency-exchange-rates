@@ -1,3 +1,5 @@
+import { Box, FormControl, FormControlLabel, InputLabel } from '@mui/material'
+import { purple } from '@mui/material/colors'
 import { useState } from 'react'
 import CurrencyList from './CurrencyList'
 import ExchangeRatesTable from './ExchangeRatesTable'
@@ -14,14 +16,19 @@ export default function ExchangeRates ({ listOfCurrencies }: Props) {
   return (
     <>
       <SectionHeader title='Exchange Rates' />
-      <div className='container' style={{ width: '300px' }}>
-        <p className='d-inline-block me-2'>Exchange rates for 1</p>
-        <CurrencyList
-          listOfCurrencies={listOfCurrencies}
-          defaultValue={defaultCurr}
-          setBaseCurrency={setBaseCurrency}
-        />
-      </div>
+      <FormControlLabel
+        label='Exchange Rates for 1'
+        labelPlacement='start'
+        control={
+          <Box ml={1}>
+            <CurrencyList
+              listOfCurrencies={listOfCurrencies}
+              defaultValue={defaultCurr}
+              setBaseCurrency={setBaseCurrency}
+            />
+          </Box>
+        }
+      ></FormControlLabel>
       <ExchangeRatesTable baseCurrency={baseCurrency} />
     </>
   )

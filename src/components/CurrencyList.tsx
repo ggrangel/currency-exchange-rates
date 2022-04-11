@@ -1,5 +1,5 @@
+import { MenuItem, Select } from '@mui/material'
 import React from 'react'
-import Select from 'react-select'
 
 interface Props {
   listOfCurrencies: string[];
@@ -14,14 +14,18 @@ export default function CurrencyList ({
 }: Props) {
   return (
     <>
-        <Select
-          options={listOfCurrencies
-            .sort()
-            .map(currency => ({ label: currency, value: currency }))}
-          defaultValue={{ label: defaultValue, value: defaultValue }}
-          onChange={(e) => setBaseCurrency(e!.value)}
-          className="d-inline-block"
-        />
+      <Select
+        autoWidth
+        variant='standard'
+        defaultValue={defaultValue}
+        onChange={e => setBaseCurrency(e.target.value)}
+      >
+        {listOfCurrencies.sort().map(currency => (
+          <MenuItem key={currency} value={currency}>
+            {currency}
+          </MenuItem>
+        ))}
+      </Select>
     </>
   )
 }

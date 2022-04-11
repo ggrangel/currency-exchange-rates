@@ -1,8 +1,17 @@
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import "./App.css";
 import CurrencyConverter from "./components/CurrencyConverter";
 import ExchangeRates from "./components/ExchangeRates";
+
+
+const theme = createTheme({
+  typography: {
+    fontFamily: 'Quicksand',
+    fontWeightRegular: "900"
+  }
+})
 
 
 function App() {
@@ -38,11 +47,13 @@ function App() {
   }
 
   return (
+    <ThemeProvider theme={theme}>
     <div className="App">
       {error && checkAPIError()}
       {allCurrencies && <CurrencyConverter listOfCurrencies={allCurrencies}/>}
       {allCurrencies && <ExchangeRates listOfCurrencies={allCurrencies}/>}
     </div>
+    </ThemeProvider>
   );
 }
 

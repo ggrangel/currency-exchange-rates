@@ -1,4 +1,6 @@
+import { Box, Grid, TextField } from '@mui/material'
 import { useState } from 'react'
+import './CurrencyConverter.css'
 import CurrencyList from './CurrencyList'
 import SectionHeader from './SectionHeader'
 
@@ -16,11 +18,43 @@ export default function CurrencyConverter ({ listOfCurrencies }: Props) {
   return (
     <>
       <SectionHeader title='Currency Converter' />
-      <CurrencyList
-        listOfCurrencies={listOfCurrencies}
-        defaultValue={defaultCurr1}
-        setBaseCurrency={setCurrency1}
-      />
+      <Grid
+        container
+        // direction='row'
+        // justifyContent='center'
+        // alignItems='center'
+        rowSpacing={1}
+        columnSpacing={3}
+      >
+        <Grid item xs={6}>
+          <Box display='flex' justifyContent='flex-end'>
+            <TextField size='small' sx={{ width: 100 }} defaultValue={1} />
+          </Box>
+        </Grid>
+        <Grid item xs={6}>
+          <Box display='flex' justifyContent='flex-start'>
+            <CurrencyList
+              listOfCurrencies={listOfCurrencies}
+              defaultValue={defaultCurr1}
+              setBaseCurrency={setCurrency1}
+            />
+          </Box>
+        </Grid>
+        <Grid item xs={6}>
+          <Box display='flex' justifyContent='flex-end'>
+            <TextField size='small' sx={{ width: 100 }} />
+          </Box>
+        </Grid>
+        <Grid item xs={6}>
+          <Box display='flex' justifyContent='flex-start'>
+            <CurrencyList
+              listOfCurrencies={listOfCurrencies}
+              defaultValue={defaultCurr2}
+              setBaseCurrency={setCurrency2}
+            />
+          </Box>
+        </Grid>
+      </Grid>
     </>
   )
 }
