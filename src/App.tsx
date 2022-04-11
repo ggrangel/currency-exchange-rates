@@ -16,7 +16,6 @@ const theme = createTheme({
 
 function App() {
   const [allCurrencies, setAllCurrencies] = useState<string[]>([])
-  const [error, setError] = useState(false)
 
   useEffect(() => {
     const fetchCurrencies = async () => {
@@ -27,31 +26,21 @@ function App() {
 
         const fetchedCurrencies = Object.keys(exchangeRates.data.rates)
         fetchedCurrencies.push('EUR')
-        console.log(fetchedCurrencies)
 
         setAllCurrencies(fetchedCurrencies)
-        setError(false)
       } catch (error) {
-        setError(true)
+        console.log(error)
       }
     }
 
     fetchCurrencies()
   }, [])
 
-  function checkAPIError () {
-    return (
-      error &&
-      'Oops, could not fetch exchange rates, please try to fix the error shown in the console or try again later.'
-    )
-  }
-
   return (
     <ThemeProvider theme={theme}>
     <div className="App">
-      {error && checkAPIError()}
-      {allCurrencies && <CurrencyConverter listOfCurrencies={allCurrencies}/>}
-      {allCurrencies && <ExchangeRates listOfCurrencies={allCurrencies}/>}
+      <CurrencyConverter listOfCurrencies={allCurrencies}/>
+      <ExchangeRates listOfCurrencies={allCurrencies}/>
     </div>
     </ThemeProvider>
   );
