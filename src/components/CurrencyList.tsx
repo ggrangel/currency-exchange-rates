@@ -3,13 +3,13 @@ import React from 'react'
 
 interface Props {
   listOfCurrencies: string[];
-  setBaseCurrency: React.Dispatch<React.SetStateAction<string>>;
+  onChange: (currency: string) => void;
   defaultValue: string;
 }
 
 export default function CurrencyList ({
   listOfCurrencies,
-  setBaseCurrency,
+  onChange,
   defaultValue
 }: Props) {
   return (
@@ -18,7 +18,7 @@ export default function CurrencyList ({
         autoWidth
         variant='standard'
         defaultValue={defaultValue}
-        onChange={e => setBaseCurrency(e.target.value)}
+        onChange={e => onChange(e.target.value)}
       >
         {listOfCurrencies.sort().map(currency => (
           <MenuItem key={currency} value={currency}>
