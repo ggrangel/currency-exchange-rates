@@ -1,7 +1,6 @@
 import { Box, Grid, Typography } from '@mui/material'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import './ExchangeRatesTable.css'
 
 function countDigitsBeforeDecimal (num: number): number {
   if (Number.isInteger(num)) {

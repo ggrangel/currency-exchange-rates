@@ -1,10 +1,12 @@
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
+import React, { useContext } from "react";
 import { useEffect, useState } from "react";
 import "./App.css";
 import CurrencyConverter from "./components/CurrencyConverter";
 import ExchangeRates from "./components/ExchangeRates";
-
+import Footer from "./components/Footer";
+import NavBar from "./components/NavBar";
 
 const theme = createTheme({
   typography: {
@@ -13,6 +15,7 @@ const theme = createTheme({
   }
 })
 
+export const ListOfCurrenciesContext = React.createContext<string[]>([])
 
 function App() {
   const [allCurrencies, setAllCurrencies] = useState<string[]>([])
@@ -39,8 +42,12 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
     <div className="App">
-      <CurrencyConverter listOfCurrencies={allCurrencies}/>
-      <ExchangeRates listOfCurrencies={allCurrencies}/>
+      <NavBar />
+        <ListOfCurrenciesContext.Provider value={allCurrencies}>
+      <CurrencyConverter />
+      <ExchangeRates />
+        </ListOfCurrenciesContext.Provider>
+        <Footer />
     </div>
     </ThemeProvider>
   );

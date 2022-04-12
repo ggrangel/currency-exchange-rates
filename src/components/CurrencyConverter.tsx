@@ -1,15 +1,10 @@
 import { Box, Grid, TextField } from '@mui/material'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import './CurrencyConverter.css'
 import CurrencyList from './CurrencyList'
 import SectionHeader from './SectionHeader'
 
-interface Props {
-  listOfCurrencies: string[];
-}
-
-export default function CurrencyConverter ({ listOfCurrencies }: Props) {
+export default function CurrencyConverter () {
   const defaultCurr1 = 'EUR'
   const defaultCurr2 = 'BRL'
 
@@ -43,7 +38,7 @@ export default function CurrencyConverter ({ listOfCurrencies }: Props) {
     const fetchCurrencyConversion = () => {
       convertCurrencies(defaultCurr1, defaultCurr2).then(exchangeRate => {
         setExchangeRateFrom1To2(parseFloat(exchangeRate))
-        setValue2(parseFloat(exchangeRate))
+        setValue2(parseFloat(exchangeRate.toFixed(2)))
       })
     }
 
@@ -56,7 +51,7 @@ export default function CurrencyConverter ({ listOfCurrencies }: Props) {
     const textFieldValue = Math.max(parseFloat(event.target.value), 0)
 
     setValue1(textFieldValue)
-    setValue2(textFieldValue * exchangeRateFrom1To2)
+    setValue2(parseFloat((textFieldValue * exchangeRateFrom1To2).toFixed(2)))
   }
 
   function textField2Changed (
@@ -65,7 +60,9 @@ export default function CurrencyConverter ({ listOfCurrencies }: Props) {
     const textFieldValue = Math.max(parseFloat(event.target.value), 0)
 
     setValue2(textFieldValue)
-    setValue1(textFieldValue * (1 / exchangeRateFrom1To2))
+    setValue1(
+      parseFloat((textFieldValue * (1 / exchangeRateFrom1To2)).toFixed(2))
+    )
   }
 
   function currency1Changed (newCurrency: string) {
@@ -77,7 +74,7 @@ export default function CurrencyConverter ({ listOfCurrencies }: Props) {
     } else {
       convertCurrencies(newCurrency, currency2).then(exchangeRate => {
         setExchangeRateFrom1To2(parseFloat(exchangeRate))
-        setValue2(value1 * exchangeRate)
+        setValue2(parseFloat((value1 * exchangeRate).toFixed(2)))
       })
     }
   }
@@ -91,7 +88,7 @@ export default function CurrencyConverter ({ listOfCurrencies }: Props) {
     } else {
       convertCurrencies(currency1, newCurrency).then(exchangeRate => {
         setExchangeRateFrom1To2(parseFloat(exchangeRate))
-        setValue2(value1 * exchangeRate)
+        setValue2(parseFloat((value1 * exchangeRate).toFixed(2)))
       })
     }
   }
@@ -105,7 +102,7 @@ export default function CurrencyConverter ({ listOfCurrencies }: Props) {
             <TextField
               type='number'
               size='small'
-              sx={{ width: 100 }}
+              sx={{ width: 150 }}
               value={value1}
               onChange={e => textField1Changed(e)}
             />
@@ -114,7 +111,6 @@ export default function CurrencyConverter ({ listOfCurrencies }: Props) {
         <Grid item xs={6}>
           <Box display='flex' justifyContent='flex-start'>
             <CurrencyList
-              listOfCurrencies={listOfCurrencies}
               defaultValue={defaultCurr1}
               onChange={currency1Changed}
             />
@@ -125,7 +121,7 @@ export default function CurrencyConverter ({ listOfCurrencies }: Props) {
             <TextField
               type='number'
               size='small'
-              sx={{ width: 100 }}
+              sx={{ width: 150 }}
               value={value2}
               onChange={e => textField2Changed(e)}
             />
@@ -134,7 +130,6 @@ export default function CurrencyConverter ({ listOfCurrencies }: Props) {
         <Grid item xs={6}>
           <Box display='flex' justifyContent='flex-start'>
             <CurrencyList
-              listOfCurrencies={listOfCurrencies}
               defaultValue={defaultCurr2}
               onChange={currency2Changed}
             />

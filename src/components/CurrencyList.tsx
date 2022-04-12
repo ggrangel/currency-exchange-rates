@@ -1,17 +1,14 @@
 import { MenuItem, Select } from '@mui/material'
 import React from 'react'
+import { ListOfCurrenciesContext } from '../App'
 
 interface Props {
-  listOfCurrencies: string[];
   onChange: (currency: string) => void;
   defaultValue: string;
 }
 
-export default function CurrencyList ({
-  listOfCurrencies,
-  onChange,
-  defaultValue
-}: Props) {
+export default function CurrencyList ({ onChange, defaultValue }: Props) {
+  const listOfCurrencies = React.useContext(ListOfCurrenciesContext)
   return (
     <>
       <Select
