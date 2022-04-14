@@ -1,9 +1,9 @@
 import { Box, Grid, TextField } from '@mui/material'
 import axios from 'axios'
+import HistoricalChart from './HistoricalChart'
 import { useEffect, useState } from 'react'
-import { Line } from 'react-chartjs-2'
-import CurrencyList from './CurrencyList'
 import SectionHeader from './SectionHeader'
+import CurrencyList from './CurrencyList'
 
 export default function CurrencyConverter () {
   const defaultCurr1 = 'EUR'
@@ -17,9 +17,6 @@ export default function CurrencyConverter () {
 
   // This state exists to avoid calling the API again whenever we only change the text inputs.
   const [exchangeRateFrom1To2, setExchangeRateFrom1To2] = useState(0)
-
-  const [chartXData, setChartXData] = useState([])
-  const [chartYData, setChartYData] = useState([])
 
   async function convertCurrencies (
     curr1: string,
@@ -36,26 +33,6 @@ export default function CurrencyConverter () {
     } catch (error) {
       console.log(error)
     }
-  }
-
-  function getHistoricalExchangeRate () {
-    const endDate = new Date().toISOString().split('T')[0];
-    const startDate = new Date((new Date).getTime() - (30 * 24 * 60 * 60 * 1000)).toISOString().split('T')[0];
-
-    const host = 'altexchangerateapi.herokuapp.com'
-
-    try {
-      const historicalExchangeRate = await axios.get(
-        `https://${host}/${startDate}..${endDate}?from=${currency1}&to=${currency2}`
-      )
-
-      console.log(historicalExchangeRate)
-
-      // return exchangeRates.data.rates[`${curr2}`]
-    } catch (error) {
-      console.log(error)
-    }
-
   }
 
   useEffect(() => {
@@ -101,7 +78,6 @@ export default function CurrencyConverter () {
         setValue2(parseFloat((value1 * exchangeRate).toFixed(2)))
       })
     }
-
   }
 
   function currency2Changed (newCurrency: string) {
@@ -118,55 +94,58 @@ export default function CurrencyConverter () {
     }
   }
 
-
   return (
     <>
       <SectionHeader title='Currency Converter' />
-      <Grid container>
-        <Grid item xs={6}>
-          <Grid container rowSpacing={1} columnSpacing={3}>
-            <Grid item xs={6}>
-              <Box display='flex' justifyContent='flex-end'>
-                <TextField
-                  type='number'
-                  size='small'
-                  sx={{ width: 150 }}
-                  value={value1}
-                  onChange={e => textField1Changed(e)}
-                />
-              </Box>
-            </Grid>
-            <Grid item xs={6}>
-              <Box display='flex' justifyContent='flex-start'>
-                <CurrencyList
-                  defaultValue={defaultCurr1}
-                  onChange={currency1Changed}
-                />
-              </Box>
-            </Grid>
-            <Grid item xs={6}>
-              <Box display='flex' justifyContent='flex-end'>
-                <TextField
-                  type='number'
-                  size='small'
-                  sx={{ width: 150 }}
-                  value={value2}
-                  onChange={e => textField2Changed(e)}
-                />
-              </Box>
-            </Grid>
-            <Grid item xs={6}>
-              <Box display='flex' justifyContent='flex-start'>
-                <CurrencyList
-                  defaultValue={defaultCurr2}
-                  onChange={currency2Changed}
-                />
-              </Box>
+      <Grid container justifyContent='center'>
+        <Box display='flex' justifyContent='flex-end' alignItems='center'>
+          <Grid item xs={6}>
+            <Grid container rowSpacing={1} columnSpacing={3}>
+              <Grid item xs={6}>
+                <Box display='flex' justifyContent='flex-end'>
+                  <TextField
+                    type='number'
+                    size='small'
+                    sx={{ width: 150 }}
+                    value={value1}
+                    onChange={e => textField1Changed(e)}
+                  />
+                </Box>
+              </Grid>
+              <Grid item xs={6}>
+                <Box display='flex' justifyContent='flex-start'>
+                  <CurrencyList
+                    defaultValue={defaultCurr1}
+                    onChange={currency1Changed}
+                  />
+                </Box>
+              </Grid>
+              <Grid item xs={6}>
+                <Box display='flex' justifyContent='flex-end'>
+                  <TextField
+                    type='number'
+                    size='small'
+                    sx={{ width: 150 }}
+                    value={value2}
+                    onChange={e => textField2Changed(e)}
+                  />
+                </Box>
+              </Grid>
+              <Grid item xs={6}>
+                <Box display='flex' justifyContent='flex-start'>
+                  <CurrencyList
+                    defaultValue={defaultCurr2}
+                    onChange={currency2Changed}
+                  />
+                </Box>
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-        <Grid item xs={6}>
-          <Line data=/>
+        </Box>
+        <Grid item xs={3}>
+          <Box display='flex' justifyContent='flex-start'>
+            <HistoricalChart currency1={currency1} currency2={currency2} />
+          </Box>
         </Grid>
       </Grid>
     </>
