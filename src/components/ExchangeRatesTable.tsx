@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material'
+import { Box, Grid, Paper, Typography } from '@mui/material'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 
@@ -45,27 +45,32 @@ export default function ExchangeRatesTable ({ baseCurrency }: Props) {
   return (
     <>
       {exchangeRates && (
-        <Grid container mt={3} spacing={1}>
+        <Grid container mt={3} columnSpacing={5} rowSpacing={1}>
           {Object.keys(exchangeRates)
             .sort()
             .map((currency, i) => (
               <Grid key={i} item md={3} xs={6}>
-                <Grid container>
-                  <Grid item xs={6}>
-                    <Box display='flex' justifyContent='flex-end'>
-                      <Typography align='left' mr={2} color='primary'>
-                        {currency}
-                      </Typography>
-                    </Box>
+                <Paper elevation={3}>
+                  <Grid container>
+                    <Grid item xs={6}>
+                      <Box display='flex' justifyContent='flex-end'>
+                        <Typography align='left' mr={2} color='primary'>
+                          {currency}
+                        </Typography>
+                      </Box>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Box display='flex' justifyContent='flex-start'>
+                        <Typography align='left' color='secondary'>
+                          {formatExchangeRateDecimals(
+                            exchangeRates[currency],
+                            5
+                          )}
+                        </Typography>
+                      </Box>
+                    </Grid>
                   </Grid>
-                  <Grid item xs={6}>
-                    <Box display='flex' justifyContent='flex-start'>
-                      <Typography align='left' color='secondary'>
-                        {formatExchangeRateDecimals(exchangeRates[currency], 5)}
-                      </Typography>
-                    </Box>
-                  </Grid>
-                </Grid>
+                </Paper>
               </Grid>
             ))}
         </Grid>

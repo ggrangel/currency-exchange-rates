@@ -1,12 +1,13 @@
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
-import React, { useContext } from "react";
+import React from "react";
 import { useEffect, useState } from "react";
 import "./App.css";
 import CurrencyConverter from "./components/CurrencyConverter";
 import ExchangeRates from "./components/ExchangeRates";
 import Footer from "./components/Footer";
 import NavBar from "./components/NavBar";
+
 
 const theme = createTheme({
   typography: {

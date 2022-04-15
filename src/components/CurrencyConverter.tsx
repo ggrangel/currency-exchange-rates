@@ -97,7 +97,7 @@ export default function CurrencyConverter () {
   return (
     <>
       <SectionHeader title='Currency Converter' />
-      <Grid container justifyContent='center'>
+      <Grid container justifyContent='center' columnSpacing={0}>
         <Box display='flex' justifyContent='flex-end' alignItems='center'>
           <Grid item xs={6}>
             <Grid container rowSpacing={1} columnSpacing={3}>
@@ -106,7 +106,7 @@ export default function CurrencyConverter () {
                   <TextField
                     type='number'
                     size='small'
-                    sx={{ width: 150 }}
+                    sx={{ width: 200 }}
                     value={value1}
                     onChange={e => textField1Changed(e)}
                   />
@@ -125,7 +125,7 @@ export default function CurrencyConverter () {
                   <TextField
                     type='number'
                     size='small'
-                    sx={{ width: 150 }}
+                    sx={{ width: 200 }}
                     value={value2}
                     onChange={e => textField2Changed(e)}
                   />
